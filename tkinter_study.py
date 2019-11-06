@@ -1,5 +1,6 @@
 import tkinter
 import time
+import win32clipboard as w
 from PIL import Image,ImageGrab
 from pytesseract import image_to_string
 
@@ -18,9 +19,15 @@ def main():
     img = get_gray_image_from_cb()
     if not img:
         return 
-    txt = image_to_string(img)
-    print(txt)
-
+    try:
+        txt = image_to_string(img)
+        print(txt)
+        w.OpenClipboard()
+        w.EmptyClipboard()
+        w.SetClipboardText(txt)
+        w.CloseClipboard()
+    except:
+        pass
 while True:
     main()
     time.sleep(2)
